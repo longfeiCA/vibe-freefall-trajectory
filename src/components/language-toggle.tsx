@@ -3,19 +3,38 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function LanguageToggle() {
-  const { i18n } = useTranslation();
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'zh' : 'en';
-    i18n.changeLanguage(newLang);
-  };
+  const { i18n, t } = useTranslation();
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleLanguage}>
-      <Globe className="h-[1.2rem] w-[1.2rem]" />
-      <span className="sr-only">Toggle language</span>
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Globe className="h-[1.2rem] w-[1.2rem]" />
+          <span className="sr-only">{t('Toggle language')}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => i18n.changeLanguage('en')}>
+          English
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => i18n.changeLanguage('zh')}>
+          简体中文
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => i18n.changeLanguage('es')}>
+          Español
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => i18n.changeLanguage('fr')}>
+          Français
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
