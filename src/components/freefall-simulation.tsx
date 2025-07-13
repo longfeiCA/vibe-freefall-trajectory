@@ -105,7 +105,7 @@ export function FreefallSimulation() {
         </Sidebar>
         
         <main className="flex flex-1 flex-col items-center justify-center p-4 lg:p-8 relative">
-          <div className="w-full max-w-6xl">
+          <div className="w-full max-w-6xl h-full">
             <SimulationCanvas
               plane={planeState}
               balls={balls}
