@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { SimulationControls, type SimulationParams } from '@/components/simulation-controls';
 import { SimulationCanvas } from '@/components/simulation-canvas';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -31,12 +31,14 @@ export function FreefallSimulation() {
   const [time, setTime] = useState(0);
   const [balls, setBalls] = useState<Ball[]>([]);
   const [lastDropTime, setLastDropTime] = useState(0);
+  const ballIdCounter = useRef(0);
 
   const handleReset = useCallback(() => {
     setIsPlaying(false);
     setTime(0);
     setBalls([]);
     setLastDropTime(0);
+    ballIdCounter.current = 0;
   }, []);
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export function FreefallSimulation() {
           const planeX = params.initialSpeed * lastDropTime + 0.5 * params.acceleration * Math.pow(lastDropTime, 2);
           
           setBalls(prevBalls => {
-            const newBall = { id: Date.now(), dropTime: lastDropTime, initialX: planeX, initialV: planeV };
+            const newBall = { id: ballIdCounter.current++, dropTime: lastDropTime, initialX: planeX, initialV: planeV };
             const updatedBalls = [...prevBalls, newBall];
             // Limit the number of balls for performance
             return updatedBalls.length > 200 ? updatedBalls.slice(1) : updatedBalls;

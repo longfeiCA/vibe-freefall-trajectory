@@ -34,10 +34,8 @@ export function SimulationCanvas({ plane, balls, time, gravity }: SimulationCanv
   const CANVAS_HEIGHT = 500;
   const CANVAS_WIDTH = 800;
   
-  const viewBox = useMemo(() => {
-    const viewX = plane.x - CANVAS_WIDTH / 4;
-    return `${viewX} -20 ${CANVAS_WIDTH} ${CANVAS_HEIGHT + 40}`;
-  }, [plane.x]);
+  // The viewBox is now static, so the canvas doesn't move.
+  const viewBox = `0 -20 ${CANVAS_WIDTH} ${CANVAS_HEIGHT + 40}`;
 
   return (
     <div className="w-full h-full bg-card rounded-lg overflow-hidden border-2 border-primary/20 shadow-inner">
@@ -48,8 +46,11 @@ export function SimulationCanvas({ plane, balls, time, gravity }: SimulationCanv
                 <stop offset="100%" style={{ stopColor: 'hsl(200, 100%, 85%)' }} />
             </linearGradient>
         </defs>
-        <rect x={plane.x - CANVAS_WIDTH * 2} y="-50" width={CANVAS_WIDTH * 4} height={CANVAS_HEIGHT + 100} fill="url(#skyGradient)"/>
+        
+        {/* The background rect now covers the static viewBox */}
+        <rect x="0" y="-20" width={CANVAS_WIDTH} height={CANVAS_HEIGHT + 40} fill="url(#skyGradient)"/>
 
+        {/* The plane is translated based on its state, moving across the canvas */}
         <g transform={`translate(${plane.x}, ${plane.y})`}>
           <Plane
             className="text-slate-700 -rotate-45 drop-shadow-lg"
