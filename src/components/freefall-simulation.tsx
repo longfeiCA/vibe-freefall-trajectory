@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { SimulationControls, type SimulationParams } from '@/components/simulation-controls';
 import { SimulationCanvas } from '@/components/simulation-canvas';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarProvider } from '@/components/ui/sidebar';
+import { ThemeToggle } from './theme-toggle';
 
 const GRAVITY = 9.8;
 
@@ -106,6 +107,9 @@ export function FreefallSimulation() {
         </Sidebar>
         
         <main className="flex flex-1 flex-col items-center justify-center p-4 lg:p-8 relative">
+          <div className="absolute top-4 right-4">
+            <ThemeToggle />
+          </div>
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
               Interactive Freefall Simulation

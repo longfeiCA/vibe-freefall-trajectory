@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from './theme-toggle';
 
 export interface SimulationParams {
   initialSpeed: number;
@@ -85,7 +84,6 @@ export function SimulationControls({ params, setParams, isPlaying, setIsPlaying,
           <RefreshCw className="mr-2 h-4 w-4" />
           Reset
         </Button>
-        <ThemeToggle />
       </div>
     </div>
   );
