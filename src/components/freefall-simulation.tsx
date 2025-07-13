@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { SimulationControls, type SimulationParams } from '@/components/simulation-controls';
 import { SimulationCanvas } from '@/components/simulation-canvas';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarProvider } from '@/components/ui/sidebar';
 
 const GRAVITY = 9.8;
 
@@ -61,7 +61,6 @@ export function FreefallSimulation() {
           setBalls(prevBalls => {
             const newBall = { id: ballIdCounter.current++, dropTime: lastDropTime, initialX: planeX, initialV: planeV };
             const updatedBalls = [...prevBalls, newBall];
-            // Limit the number of balls for performance
             return updatedBalls.length > 200 ? updatedBalls.slice(1) : updatedBalls;
           });
 
@@ -86,36 +85,36 @@ export function FreefallSimulation() {
   }, [time, params.initialSpeed, params.acceleration]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-      <Card className="lg:col-span-1 shadow-lg">
-        <CardHeader>
-          <CardTitle className="font-headline">Controls</CardTitle>
-          <CardDescription>Adjust simulation parameters.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SimulationControls
-            params={params}
-            setParams={setParams}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            onReset={handleReset}
-          />
-        </CardContent>
-      </Card>
-      <Card className="lg:col-span-2 shadow-lg">
-         <CardHeader>
-          <CardTitle className="font-headline">Simulation</CardTitle>
-          <CardDescription>Visual representation of the freefall experiment.</CardDescription>
-        </CardHeader>
-        <CardContent>
-           <SimulationCanvas
-            plane={planeState}
-            balls={balls}
-            time={time}
-            gravity={GRAVITY}
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <SidebarProvider>
+      <div className="flex h-full w-full bg-muted/20">
+        <Sidebar collapsible>
+          <SidebarHeader className="p-4">
+            <h3 className="font-semibold text-lg text-sidebar-foreground">Controls</h3>
+          </SidebarHeader>
+          <SidebarContent>
+            <div className="p-4">
+              <SimulationControls
+                params={params}
+                setParams={setParams}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+                onReset={handleReset}
+              />
+            </div>
+          </SidebarContent>
+        </Sidebar>
+        
+        <main className="flex flex-1 flex-col items-center justify-center p-4 lg:p-8 relative">
+          <div className="w-full max-w-6xl">
+            <SimulationCanvas
+              plane={planeState}
+              balls={balls}
+              time={time}
+              gravity={GRAVITY}
+            />
+          </div>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }

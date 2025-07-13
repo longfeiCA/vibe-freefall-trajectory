@@ -1,24 +1,21 @@
-import { FreefallSimulation } from '@/components/freefall-simulation';
+import { FreefallSimulation } from "@/components/freefall-simulation";
 
 export default function Home() {
   return (
-    <div className="bg-background min-h-screen font-body">
-      <header className="py-6 px-4 md:px-8">
-        <h1
-          className="text-4xl font-bold font-headline text-center text-primary-foreground bg-primary/90 p-4 rounded-lg shadow-xl"
-          style={{
-            textShadow: '2px 2px 4px rgba(0,0,0,0.2)',
-          }}
-        >
-          Freefall Trajectory Simulator
-        </h1>
+    <div className="h-screen w-screen bg-background">
+      <header className="absolute top-0 left-0 right-0 flex items-center justify-center p-4 bg-background/50 backdrop-blur-sm z-10">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
+            Interactive Freefall Simulation
+          </h1>
+          <p className="text-muted-foreground md:text-xl">
+            An interactive physics simulation of an object in freefall from an accelerating plane.
+          </p>
+        </div>
       </header>
-      <main className="p-4 md:p-8">
+      <main className="h-full pt-24">
         <FreefallSimulation />
       </main>
-      <footer className="text-center p-4 text-foreground/60 text-sm">
-        <p>A physics experiment brought to life with Next.js and Tailwind CSS.</p>
-      </footer>
     </div>
   );
 }
