@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from 'react';
+import { useTheme } from 'next-themes';
 import { Plane } from 'lucide-react';
 import type { PlaneState, Ball } from './freefall-simulation';
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart';
@@ -45,6 +45,7 @@ const BallAndTrajectory = ({ ball, time, gravity, canvasHeight }: { ball: Ball, 
 };
 
 export function SimulationCanvas({ plane, balls, time, gravity }: SimulationCanvasProps) {
+  const { theme } = useTheme();
   const CANVAS_HEIGHT = 600;
   const CANVAS_WIDTH = 800;
   
@@ -76,7 +77,7 @@ export function SimulationCanvas({ plane, balls, time, gravity }: SimulationCanv
           <g transform={`translate(${plane.x}, ${plane.y})`}>
             <g style={{ filter: 'url(#glow)'}}>
               <Plane
-                  className="text-slate-800 drop-shadow-lg"
+                  className={theme === 'dark' ? 'text-white' : 'text-slate-800'}
                   size={48}
                   strokeWidth={1.5}
                   style={{ transform: `translate(-24px, -24px) rotate(45deg)` }}
