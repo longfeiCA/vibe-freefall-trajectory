@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export interface SimulationParams {
   initialSpeed: number;
@@ -21,6 +22,7 @@ interface SimulationControlsProps {
 }
 
 export function SimulationControls({ params, setParams, isPlaying, setIsPlaying, onReset }: SimulationControlsProps) {
+  const { t } = useTranslation();
   const handleParamChange = (key: keyof SimulationParams, value: number) => {
     setParams({ ...params, [key]: value });
   };
@@ -29,7 +31,7 @@ export function SimulationControls({ params, setParams, isPlaying, setIsPlaying,
     <div className="space-y-8">
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <Label htmlFor="initial-speed" className="font-semibold">Initial Speed</Label>
+          <Label htmlFor="initial-speed" className="font-semibold">{t('Initial Speed')}</Label>
           <span className="text-sm font-mono p-1 px-2 rounded-md bg-muted text-muted-foreground">{params.initialSpeed.toFixed(1)} m/s</span>
         </div>
         <Slider
@@ -40,12 +42,12 @@ export function SimulationControls({ params, setParams, isPlaying, setIsPlaying,
           value={[params.initialSpeed]}
           onValueChange={([val]) => handleParamChange('initialSpeed', val)}
           disabled={isPlaying}
-          aria-label="Initial Speed"
+          aria-label={t('Initial Speed')}
         />
       </div>
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <Label htmlFor="acceleration" className="font-semibold">Acceleration</Label>
+          <Label htmlFor="acceleration" className="font-semibold">{t('Acceleration')}</Label>
           <span className="text-sm font-mono p-1 px-2 rounded-md bg-muted text-muted-foreground">{params.acceleration.toFixed(1)} m/s²</span>
         </div>
         <Slider
@@ -56,12 +58,12 @@ export function SimulationControls({ params, setParams, isPlaying, setIsPlaying,
           value={[params.acceleration]}
           onValueChange={([val]) => handleParamChange('acceleration', val)}
           disabled={isPlaying}
-          aria-label="Acceleration"
+          aria-label={t('Acceleration')}
         />
       </div>
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <Label htmlFor="drop-interval" className="font-semibold">Drop Interval</Label>
+          <Label htmlFor="drop-interval" className="font-semibold">{t('Drop Interval')}</Label>
            <span className="text-sm font-mono p-1 px-2 rounded-md bg-muted text-muted-foreground">{params.dropInterval.toFixed(2)} s</span>
         </div>
         <Slider
@@ -72,17 +74,17 @@ export function SimulationControls({ params, setParams, isPlaying, setIsPlaying,
           value={[params.dropInterval]}
           onValueChange={([val]) => handleParamChange('dropInterval', val)}
           disabled={isPlaying}
-          aria-label="Drop Interval"
+          aria-label={t('Drop Interval')}
         />
       </div>
       <div className="flex gap-4 pt-4 border-t border-border/50">
         <Button onClick={() => setIsPlaying(!isPlaying)} className="w-full bg-primary hover:bg-primary/80 transition-all duration-300 transform hover:scale-105">
           {isPlaying ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
-          {isPlaying ? 'Pause' : 'Start'}
+          {isPlaying ? t('Pause') : t('Start')}
         </Button>
         <Button onClick={onReset} variant="outline" className="w-full transition-all duration-300 transform hover:scale-105">
           <RefreshCw className="mr-2 h-4 w-4" />
-          Reset
+          {t('Reset')}
         </Button>
       </div>
     </div>

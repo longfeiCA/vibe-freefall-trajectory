@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SimulationControls, type SimulationParams } from '@/components/simulation-controls';
 import { SimulationCanvas } from '@/components/simulation-canvas';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarProvider } from '@/components/ui/sidebar';
 import { ThemeToggle } from './theme-toggle';
+import { LanguageToggle } from './language-toggle';
 
 const GRAVITY = 9.8;
 
@@ -23,6 +25,7 @@ export interface PlaneState {
 }
 
 export function FreefallSimulation() {
+  const { t } = useTranslation();
   const [params, setParams] = useState<SimulationParams>({
     initialSpeed: 50,
     acceleration: 2,
@@ -91,7 +94,7 @@ export function FreefallSimulation() {
       <div className="flex h-full w-full bg-muted/20">
         <Sidebar collapsible>
           <SidebarHeader className="p-4">
-            <h3 className="font-semibold text-lg text-sidebar-foreground">Controls</h3>
+            <h3 className="font-semibold text-lg text-sidebar-foreground">{t('Controls')}</h3>
           </SidebarHeader>
           <SidebarContent>
             <div className="p-4">
@@ -107,15 +110,16 @@ export function FreefallSimulation() {
         </Sidebar>
         
         <main className="flex flex-1 flex-col items-center justify-center p-4 lg:p-8 relative">
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 flex gap-2">
             <ThemeToggle />
+            <LanguageToggle />
           </div>
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
-              Interactive Freefall Simulation
+              {t('Interactive Freefall Simulation')}
             </h1>
             <p className="text-muted-foreground md:text-xl">
-              An interactive physics simulation of an object in freefall from an accelerating plane.
+              {t('An interactive physics simulation of an object in freefall from an accelerating plane.')}
             </p>
           </div>
           <div className="w-full max-w-6xl h-full">
