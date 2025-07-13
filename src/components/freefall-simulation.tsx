@@ -105,6 +105,14 @@ export function FreefallSimulation() {
         </Sidebar>
         
         <main className="flex flex-1 flex-col items-center justify-center p-4 lg:p-8 relative">
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl font-headline">
+              Interactive Freefall Simulation
+            </h1>
+            <p className="text-muted-foreground md:text-xl">
+              An interactive physics simulation of an object in freefall from an accelerating plane.
+            </p>
+          </div>
           <div className="w-full max-w-6xl h-full">
             <SimulationCanvas
               plane={planeState}
