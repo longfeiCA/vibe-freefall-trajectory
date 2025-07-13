@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from 'react';
-import { Plane } from 'lucide-react'; // Reverted back to the Plane icon
+import { Plane } from 'lucide-react';
 import type { PlaneState, Ball } from './freefall-simulation';
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart';
 
@@ -28,11 +28,13 @@ const BallAndTrajectory = ({ ball, time, gravity, canvasHeight }: { ball: Ball, 
   if (timeSinceDrop < 0) return null;
 
   const currentX = ball.initialX + ball.initialV * timeSinceDrop;
-  const currentY = 0.5 * gravity * Math.pow(timeSinceDrop, 2);
+  // Adjusted currentY to include initialY
+  const currentY = ball.initialY + 0.5 * gravity * Math.pow(timeSinceDrop, 2);
 
   if (currentY > canvasHeight + 200) return null;
 
-  const pathData = `M ${ball.initialX} 0 Q ${ball.initialX + ball.initialV * timeSinceDrop * 0.5} ${currentY * 0.2}, ${currentX} ${currentY}`;
+  // Adjusted pathData to start from initialY
+  const pathData = `M ${ball.initialX} ${ball.initialY} Q ${ball.initialX + ball.initialV * timeSinceDrop * 0.5} ${ball.initialY + currentY * 0.2}, ${currentX} ${currentY}`;
 
   return (
     <g>
@@ -73,12 +75,11 @@ export function SimulationCanvas({ plane, balls, time, gravity }: SimulationCanv
 
           <g transform={`translate(${plane.x}, ${plane.y})`}>
             <g style={{ filter: 'url(#glow)'}}>
-              {/* Reverted back to the original Plane icon */}
               <Plane
-                  className="text-slate-800 -rotate-45 drop-shadow-lg"
+                  className="text-slate-800 drop-shadow-lg"
                   size={48}
                   strokeWidth={1.5}
-                  style={{ transform: `translate(-24px, -24px)` }}
+                  style={{ transform: `translate(-24px, -24px) rotate(45deg)` }}
               />
             </g>
           </g>

@@ -12,6 +12,7 @@ export interface Ball {
   dropTime: number;
   initialX: number;
   initialV: number;
+  initialY: number; // Added initialY
 }
 
 export interface PlaneState {
@@ -41,6 +42,12 @@ export function FreefallSimulation() {
     ballIdCounter.current = 0;
   }, []);
 
+  const planeState = useMemo<PlaneState>(() => {
+    const x = params.initialSpeed * time + 0.5 * params.acceleration * Math.pow(time, 2);
+    const v = params.initialSpeed + params.acceleration * time;
+    return { x, y: 0, v };
+  }, [time, params.initialSpeed, params.acceleration]);
+
   useEffect(() => {
     if (!isPlaying) return;
 
@@ -59,7 +66,8 @@ export function FreefallSimulation() {
           const planeX = params.initialSpeed * lastDropTime + 0.5 * params.acceleration * Math.pow(lastDropTime, 2);
           
           setBalls(prevBalls => {
-            const newBall = { id: ballIdCounter.current++, dropTime: lastDropTime, initialX: planeX, initialV: planeV };
+            // Added initialY to newBall
+            const newBall = { id: ballIdCounter.current++, dropTime: lastDropTime, initialX: planeX - 24, initialV: planeV, initialY: planeState.y + 20 }; 
             const updatedBalls = [...prevBalls, newBall];
             return updatedBalls.length > 200 ? updatedBalls.slice(1) : updatedBalls;
           });
@@ -75,14 +83,7 @@ export function FreefallSimulation() {
     animationFrameId = requestAnimationFrame(loop);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPlaying, params, lastDropTime]);
-
-
-  const planeState = useMemo<PlaneState>(() => {
-    const x = params.initialSpeed * time + 0.5 * params.acceleration * Math.pow(time, 2);
-    const v = params.initialSpeed + params.acceleration * time;
-    return { x, y: 0, v };
-  }, [time, params.initialSpeed, params.acceleration]);
+  }, [isPlaying, params, lastDropTime, planeState.y]); // Added planeState.y to dependencies
 
   return (
     <SidebarProvider>
